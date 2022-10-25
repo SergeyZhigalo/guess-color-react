@@ -1,23 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import Game from "./components/Game";
+import { useEffect } from "react";
+import { useGame } from "./hooks/game";
 
 function App() {
+  const {
+    colors,
+    keyColor,
+    score,
+    accuracy,
+    highScore,
+    render,
+    correctColor,
+    wrongColor,
+  } = useGame();
+
+  useEffect(() => {
+    render(keyColor)
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="header">
+        <span>Счет {score}</span>
+        <span>Точность {(score / accuracy).toFixed(2) * 1000 / 10 || 0}%</span>
+        <span>Рекорд {highScore}</span>
       </header>
+      <Game
+        colors={colors}
+        keyColor={keyColor}
+        correctColor={correctColor}
+        wrongColor={wrongColor}
+      />
     </div>
   );
 }
